@@ -14,8 +14,8 @@ class PostSeeder extends Seeder
         DB::table('posts')->insert([
             'user_id' => 1,
             'title' => 'Test',
-            'desc' => 'Testing Data',
-            'img' => 'nothing.png',
+            'desc' => 'Testing Description',
+            'video' => 'https://www.youtube.com/embed/hXOCjdtKiks',
             'published' => true,
         ]);
 
@@ -23,7 +23,7 @@ class PostSeeder extends Seeder
             'user_id' => 2,
             'title' => 'Test2',
             'desc' => 'Testing Data2',
-            'img' => 'nothing2.png',
+            'video' => 'https://www.youtube.com/embed/hXOCjdtKiks',
             'published' => false,
         ]);
     }
