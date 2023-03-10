@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 class PostSeeder extends Seeder
 {
     /**
@@ -17,6 +18,8 @@ class PostSeeder extends Seeder
             'desc' => 'Testing Description',
             'video' => 'https://www.youtube.com/embed/hXOCjdtKiks',
             'published' => true,
+            'created_at' => '2023-03-09 11:08:37',
+            'updated_at' => '2023-03-09 11:10:37',
         ]);
 
         DB::table('posts')->insert([
@@ -25,6 +28,8 @@ class PostSeeder extends Seeder
             'desc' => 'Testing Data2',
             'video' => 'https://www.youtube.com/embed/hXOCjdtKiks',
             'published' => false,
+            'created_at' => '2023-03-09 11:10:37',
+            'updated_at' => '2023-03-09 11:15:37',
         ]);
     }
 }

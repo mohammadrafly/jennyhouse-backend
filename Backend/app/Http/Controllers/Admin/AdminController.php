@@ -15,34 +15,40 @@ class AdminController extends Controller
     // USER
     public function getUser()
     {
-        $users = User::all();
-        return view('admin.user', ['users' => $users]);
+        $users = User::paginate(10);
+        return view('admin.users.index', ['users' => $users]);
     }
 
     public function detailUser($id)
     {
-        $user = User::where('id', $id)->get();
-        return response()->json(['msg' => 'Data user dengan ID ' . $id . ' berhasil tampil !', 'user' => $user]);
+        $user = User::where('id', $id)->get()->first();
+        return view('admin.users.details', ['user' => $user]);
+    }
+
+    public function updateUser($id)
+    {
+        $user = User::where('id', $id)->get()->first();
+        return redirect(route('user-lists'));
     }
 
     public function deleteUser($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json(['msg' => 'Data User dengan ID ' . $id . 'Berhasil dihapus']);
+        return redirect(route('user.lists'));
     }
 
     // POST
     public function getPost()
     {
-        $posts = Post::all();
-        return response()->json(['msg' => 'Data post berhasil tampil', 'posts' => $posts]);
+        $posts = Post::paginate(10);
+        return view('admin.posts.index', ['posts' => $posts]);
     }
 
     public function detailPost($id)
     {
-        $post = Post::where('id', $id)->get();
-        return response()->json(['msg' => 'Data post berhasil tampil', 'post' => $post]);
+        $post = Post::where('id', $id)->get()->first();
+        return view('admin.posts.details', ['post' => $post]);
     }
 
     public function createPost(PostRequest $request)
@@ -77,7 +83,7 @@ class AdminController extends Controller
     // IMAGE
     public function getImage()
     {
-        $images = Image::all();
+        $images = Image::paginate(10);
         return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $images]);
     }
 
@@ -91,7 +97,7 @@ class AdminController extends Controller
     {
         $file = $request->file('image');
         $filename  = $file->getClientOriginalName();
-        $file->storeAs('images/post/',$filename);
+        $file->storeAs('images/post/', $filename);
         $image = Image::create([
             'image' => $request['image'],
             'image_types_id' => $request['image_types_id'],

@@ -25,8 +25,11 @@
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
                 <td>
-                    <x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/>
-                    <x-adminlte-button label="Delete" theme="danger" icon="fas fa-ban"/>
+                    <a href="{{ route('user.details',$user->id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
+                    <form method="POST" action="{{ route('user.delete',$user->id) }}">
+                        @csrf
+                        <x-adminlte-button type="submit" label="Delete" theme="danger" icon="fas fa-ban"/>
+                    </form>
                 </td>
             </tr>
             @endforeach
