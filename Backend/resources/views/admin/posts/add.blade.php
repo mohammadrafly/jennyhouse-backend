@@ -45,34 +45,16 @@
             </div>        
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="">Header Image</label>
-                    <x-adminlte-input-file name="image1" igroup-size="sm" placeholder="Choose a file...">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-lightblue">
-                                <i class="fas fa-upload"></i>
-                            </div>
-                        </x-slot>
-                    </x-adminlte-input-file>            
+                    <label for="">Header Image</label><br>
+                    <input type="file" name="image1" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>           
                 </div>
                 <div class="form-group">
-                    <label for="">Content Image</label>
-                    <x-adminlte-input-file name="image2" igroup-size="sm" placeholder="Choose a file...">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-lightblue">
-                                <i class="fas fa-upload"></i>
-                            </div>
-                        </x-slot>
-                    </x-adminlte-input-file>            
+                    <label for="">Content Image</label><br>
+                    <input type="file" name="image2" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>
                 </div>
                 <div class="form-group">
-                    <label for="">Content Image</label>
-                    <x-adminlte-input-file name="image3" igroup-size="sm" placeholder="Choose a file...">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-lightblue">
-                                <i class="fas fa-upload"></i>
-                            </div>
-                        </x-slot>
-                    </x-adminlte-input-file>            
+                    <label for="">Content Image</label><br>
+                    <input type="file" name="image3" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>
                 </div>
                 <div class="form-group">
                     <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
