@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories');
             $table->string('name');
+            $table->string('link');
             $table->float('price', 15, 2);
             $table->text('desc');
             $table->timestamps();

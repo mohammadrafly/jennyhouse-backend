@@ -8,10 +8,25 @@
 
 @section('content')
     <div class="card-body">
-        <form method="POST" action="{{ route('post.create') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('post.update',$post->id) }}" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div class="row">
                 <div class="col-sm-6">
+                    <div class="form-group">
+                        <x-adminlte-select-bs id="optionsCategory" name="category_id" label="Categories">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-red">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </x-slot>
+                        <option value="{{ $post->category_id }}">{{ $post->category->name }}</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                        </x-adminlte-select-bs>
+                    </div>
+
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" name="title" value="{{ $post->title }}" class="form-control" placeholder="Title for article">

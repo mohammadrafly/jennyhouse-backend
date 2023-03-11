@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Image;
+use App\Models\ImageType;
 use App\Models\Post;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -46,5 +49,44 @@ class BlogController extends Controller
     {
         $image = Image::find($id);
         return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $image]);
+    }
+
+    // IMAGE TYPE
+    public function getImageType()
+    {
+        $types = ImageType::all();
+        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $types]);
+    }
+
+    public function detailImageType($id)
+    {
+        $type = ImageType::find($id);
+        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $type]);
+    }
+
+    // CATEGORY
+    public function getCategory()
+    {
+        $categories = Category::all();
+        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $categories]);
+    }
+
+    public function detailCategory($id)
+    {
+        $categori = Category::find($id);
+        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $categori]);
+    }
+
+    // PRODUCT
+    public function getProduct()
+    {
+        $products = Product::all();
+        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $products]);
+    }
+
+    public function detailProduct($id)
+    {
+        $product = Product::find($id);
+        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $product]);
     }
 }

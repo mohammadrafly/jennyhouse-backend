@@ -25,16 +25,30 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::controller(BlogController::class)->group(function () {
+
+    // USER
     Route::get('/users', 'getUser');
     Route::get('/users/{id}', 'detailUser');
+
+    // CATEGORY
+    Route::get('/categories', 'getCategory');
+    Route::get('/categories/{id}', 'detailCategory');
 
     // Post
     Route::get('/posts', 'getPost');
     Route::get('/posts/{id}', 'detailPost');
 
+    // Product
+    Route::get('/products', 'getProduct');
+    Route::get('/products/{id}', 'detailProduct');
+
     // Image
     Route::get('/images', 'getImage');
     Route::get('/images/{id}', 'detailImage');
+
+    // ImageType
+    Route::get('/image-types', 'getImageType');
+    Route::get('/images-types/{id}', 'detailImageType');
 });
 
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
@@ -50,18 +64,16 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::get('/posts', 'getPost')->name('post.lists');
         Route::get('/posts/{id}', 'detailPost')->name('post.details');
         Route::post('/posts', 'createPost')->name('post.create');
-        Route::post('/posts/{id}', 'updatePost')->name('post.update');
+        Route::put('/posts/{id}', 'updatePost')->name('post.update');
         Route::delete('/posts/{id}', 'deletePost')->name('post.delete');
-        Route::get('/posts-add', function () {
-            return view('admin.posts.add');
-        })->name('post.add-page');
+        Route::get('/posts-add', 'addPost')->name('post.add-page');
 
-        // Image
-        Route::get('/images', 'getImage');
-        Route::get('/images/{id}', 'detailImage');
-        Route::post('/images', 'createImage');
-        Route::put('/images/{id}', 'updateImage');
-        Route::delete('/images/{id}', 'deleteImage');
+        // Product
+        Route::get('/products', 'getProduct');
+        Route::get('/products/{id}', 'detailProduct');
+        Route::post('/products', 'createProduct');
+        Route::put('/products/{id}', 'updateProduct');
+        Route::delete('/products/{id}', 'deleteProduct');
     });
 });
 

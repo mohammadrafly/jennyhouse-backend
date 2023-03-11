@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th>User ID</th>
+                <th>Category</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Video</th>
@@ -25,6 +26,7 @@
             @foreach($posts as $post)
             <tr>
                 <td>{{ $post->user_id }}</td>
+                <td>{{ $post->category->name }}</td>
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->desc }}</td>
                 <td>{{ $post->video }}</td>
@@ -39,6 +41,7 @@
                     <a href="{{ route('post.details',$post->id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
                     <form method="POST" action="{{ route('post.delete',$post->id) }}">
                         @csrf
+                        @method('DELETE')
                         <x-adminlte-button type="submit" label="Delete" theme="danger" icon="fas fa-ban"/>
                     </form>
                 </td>

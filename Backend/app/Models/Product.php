@@ -12,6 +12,7 @@ class Product extends Model
     protected $fillable = [
         'category_id',
         'name',
+        'link',
         'price',
         'desc'
     ];
