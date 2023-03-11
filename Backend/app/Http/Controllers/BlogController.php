@@ -25,13 +25,13 @@ class BlogController extends Controller
     // POST
     public function getPost()
     {
-        $posts = Post::all();
+        $posts = Post::with('images')->get();
         return response()->json(['msg' => 'Data post berhasil tampil', 'posts' => $posts]);
     }
 
     public function detailPost($id)
     {
-        $post = Post::where('id', $id)->get();
+        $post = Post::with('images')->find($id);
         return response()->json(['msg' => 'Data post berhasil tampil', 'post' => $post]);
     }
 
@@ -44,7 +44,7 @@ class BlogController extends Controller
 
     public function detailImage($id)
     {
-        $image = Image::where('id', $id)->get();
-        return response()->json(['msg' => 'Data post berhasil tampil', 'image' => $image]);
+        $image = Image::find($id);
+        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $image]);
     }
 }
