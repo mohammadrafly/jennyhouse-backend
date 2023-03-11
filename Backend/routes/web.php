@@ -52,6 +52,9 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::post('/posts', 'createPost')->name('post.create');
         Route::post('/posts/{id}', 'updatePost')->name('post.update');
         Route::delete('/posts/{id}', 'deletePost')->name('post.delete');
+        Route::get('/posts-add', function () {
+            return view('admin.posts.add');
+        })->name('post.add-page');
 
         // Image
         Route::get('/images', 'getImage');

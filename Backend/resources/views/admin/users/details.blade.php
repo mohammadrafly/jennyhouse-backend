@@ -19,11 +19,19 @@
 
     <x-adminlte-input name="iMail" type="email" value="{{ $user->email }}">
         <x-slot name="prependSlot">
+        <div class="input-group-prepend">
+            <span class="input-group-text">@</span>
+        </div>
+        </x-slot>
+    </x-adminlte-input>
+    
+    {{-- <x-adminlte-input name="iMail" type="email" value="{{ $user->email }}">
+        <x-slot name="prependSlot">
             <div class="input-group-text">
                 <i class="fas fa-user text-red"></i>
             </div>
         </x-slot>
-    </x-adminlte-input>
+    </x-adminlte-input> --}}
     <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
 </form>
 @stop

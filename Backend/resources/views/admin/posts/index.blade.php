@@ -15,12 +15,13 @@
                 <th>Description</th>
                 <th>Video</th>
                 <th>Published</th>
-                <th>Created At</th>
+                <th>Image</th>
                 <th>Updated At</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            {{-- {{ dd($posts) }} --}}
             @foreach($posts as $post)
             <tr>
                 <td>{{ $post->user_id }}</td>
@@ -28,7 +29,11 @@
                 <td>{{ $post->desc }}</td>
                 <td>{{ $post->video }}</td>
                 <td>{{ $post->published }}</td>
-                <td>{{ $post->created_at }}</td>
+                <td>
+                    @foreach ($post->images as $image)
+                    <img style="width: 35px; height: 35px" src="/storage/posts/images/{{ $image->image }}" alt="" srcset="">
+                    @endforeach
+                </td>
                 <td>{{ $post->updated_at }}</td>
                 <td>
                     <a href="{{ route('post.details',$post->id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
@@ -38,9 +43,9 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
-        </tbody>
+            @endforeach</tbody>
     </table>
+    <a href="{{ route('post.add-page') }}"><x-adminlte-button label="Add" theme="success"/></a>
 @stop
 
 @section('css')

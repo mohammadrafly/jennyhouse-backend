@@ -11,9 +11,15 @@ class Post extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'title',
         'desc',
         'video',
         'published',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

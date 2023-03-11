@@ -41,25 +41,44 @@ class AdminController extends Controller
     // POST
     public function getPost()
     {
-        $posts = Post::paginate(10);
+        $posts = Post::with('images')->get();
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
     public function detailPost($id)
     {
-        $post = Post::where('id', $id)->get()->first();
+        $post = Post::with('images')->find($id);
         return view('admin.posts.details', ['post' => $post]);
     }
 
-    public function createPost(PostRequest $request)
+    public function createPost(Request $request)
     {
         $post = Post::create([
             'user_id' => auth()->user()->id,
             'title' => $request['title'],
             'desc' => $request['desc'],
             'published' => $request['published'],
+            'video' => $request['video'],
         ]);
-        return response()->json(['msg' => 'Data post berhasil dibuat', 'post' => $post]);
+
+        $images = [
+            ['name' => 'image1', 'type' => 1],
+            ['name' => 'image2', 'type' => 2],
+            ['name' => 'image3', 'type' => 2],
+        ];
+
+        foreach ($images as $image) {
+            $file = $request->file($image['name']);
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('public/posts/images/', $filename);
+            Image::create([
+                'image_types_id' => $image['type'],
+                'post_id' => $post->id,
+                'image' => $filename
+            ]);
+        }
+
+        return redirect(route('post.lists'));
     }
 
     public function updatePost($id, PostRequest $request)
