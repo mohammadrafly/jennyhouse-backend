@@ -19,6 +19,7 @@ class ProductSeeder extends Seeder
             'link' => 'https://enjennyhouse.imweb.me/make-up/?idx=418',
             'price' => 11.59,
             'desc' => 'Wow Loving it',
+            'image' => '',
             'created_at' => '2023-03-09 11:10:37',
             'updated_at' => '2023-03-09 11:10:37',
         ]);
@@ -28,6 +29,7 @@ class ProductSeeder extends Seeder
             'link' => 'https://enjennyhouse.imweb.me/make-up/?idx=414',
             'price' => 33.71,
             'desc' => 'Wow Loving it',
+            'image' => '',
             'created_at' => '2023-03-09 11:10:37',
             'updated_at' => '2023-03-09 11:10:37',
         ]);

@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ImageRequest;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\ImageType;
 use App\Models\Post;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // USER
+    // USER ===================================================
     public function getUser()
     {
         $users = User::paginate(10);
@@ -39,7 +41,7 @@ class AdminController extends Controller
         return redirect(route('user.lists'));
     }
 
-    // POST
+    // POST ===================================================
     public function getPost()
     {
         $posts = Post::with('images')->get();
@@ -127,48 +129,95 @@ class AdminController extends Controller
         return redirect(route('post.lists'));
     }
 
-    // IMAGE
-    public function getImage()
+    // PRODUCT ===================================================
+    public function getProduct()
     {
-        $images = Image::paginate(10);
-        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $images]);
+        $products = Product::all();
+        return view('admin.products.index', ['products' => $products]);
     }
 
-    public function detailImage($id)
+    public function detailProduct($id)
     {
-        $image = Image::where('id', $id)->get();
-        return response()->json(['msg' => 'Data post berhasil tampil', 'image' => $image]);
+        $product = Product::find($id);
+        $categories = Category::all();
+        return view('admin.products.details', ['product' => $product, 'categories' => $categories]);
     }
 
-    public function createImage(ImageRequest $request)
+    public function createProduct(Request $request)
     {
         $file = $request->file('image');
-        $filename  = $file->getClientOriginalName();
-        $file->storeAs('images/post/', $filename);
-        $image = Image::create([
-            'image' => $request['image'],
-            'image_types_id' => $request['image_types_id'],
-            'post_id' => $request['post_id'],
+        $filename = $file->getClientOriginalName();
+        $file->storeAs('public/products/images/', $filename);
+        Product::create([
+            'category_id' => $request['category_id'],
+            'name' => $request['name'],
+            'link' => $request['link'],
+            'price' => $request['price'],
+            'image' => $filename,
+            'desc' => $request['desc'],
         ]);
+
+        return redirect(route('product.lists'));
+    }
+
+    public function addProduct()
+    {
+        $categories = Category::all();
+        return view('admin.products.add', ['categories' => $categories]);
+    }
+
+    public function updateProduct($id, ProductRequest $request)
+    {
+        $file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $file->storeAs('public/products/images/', $filename);
+        $product = Product::find($id);
+        $product->category_id = $request->category_id;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->link = $request->link;
+        $product->image = $filename;
+        $product->desc = $request->desc;
+
+        $product->save();
+
+        return redirect(route('product.lists'));
+    }
+
+    public function deleteProduct($id)
+    {
+        Product::where('id', $id)->delete();
+        return redirect(route('product.lists'));
+    }
+
+    // IMAGETYPE ===================================================
+    public function getImageType()
+    {
+        $image_types = ImageType::paginate(10);
+        return response()->json(['msg' => 'Data Image Type berhasil tampil', 'image_types' => $image_types]);
+    }
+
+    public function detailImageType($id)
+    {
+        $image_type = ImageType::where('id', $id)->get();
+        return response()->json(['msg' => 'Data Image Type berhasil tampil', 'image_type' => $image_type]);
+    }
+
+    public function createImageType(ImageTypeRequest $request)
+    {
+        
         return '';
     }
 
-    public function updateImage($id, ImageRequest $request)
+    public function updateImageType($id, ImageTypeRequest $request)
     {
-        $file = $request->file('image');
-        $filename  = $file->getClientOriginalName();
-        $file->storeAs('images/post/', $filename);
-        $image = Image::create([
-            'image' => $request['image'],
-            'image_types_id' => $request['image_types_id'],
-            'post_id' => $request['post_id'],
-        ]);
-        return response()->json(['msg' => 'Data image berhasil diubah', 'image' => $image]);
+        
+        return '';
     }
 
-    public function deleteImage($id)
+    public function deleteImageType($id)
     {
-        $image = Image::where('id', $id)->delete();
-        return response()->json(['msg' => 'Data image dengan ID ' . $id . ' berhasil dihapus']);
+        $image_type = ImageType::where('id', $id)->delete();
+        return response()->json(['msg' => 'Data Image Type dengan ID ' . $id . ' berhasil dihapus']);
     }
 }
