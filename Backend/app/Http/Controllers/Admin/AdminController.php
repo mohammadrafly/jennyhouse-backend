@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\ImageTypeRequest;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
@@ -193,31 +195,83 @@ class AdminController extends Controller
     // IMAGETYPE ===================================================
     public function getImageType()
     {
-        $image_types = ImageType::paginate(10);
-        return response()->json(['msg' => 'Data Image Type berhasil tampil', 'image_types' => $image_types]);
+        $image_types = ImageType::all();
+        return view('admin.image-type.index', ['image_types' => $image_types]);
     }
 
     public function detailImageType($id)
     {
-        $image_type = ImageType::where('id', $id)->get();
-        return response()->json(['msg' => 'Data Image Type berhasil tampil', 'image_type' => $image_type]);
+        $image_type = ImageType::find($id);
+        return view('admin.image-type.details', ['image_type' => $image_type]);
     }
 
     public function createImageType(ImageTypeRequest $request)
     {
-        
-        return '';
+        ImageType::create([
+            'name' => $request['name']
+        ]);
+        return redirect(route('image_type.lists'));
+    }
+
+    public function addImageType()
+    {
+        return view('admin.image-type.add');
     }
 
     public function updateImageType($id, ImageTypeRequest $request)
     {
-        
-        return '';
+        $image_type = ImageType::find($id);
+        $image_type->name = $request->name;
+        $image_type->save();
+        return redirect(route('image_type.lists'));
     }
 
     public function deleteImageType($id)
     {
-        $image_type = ImageType::where('id', $id)->delete();
-        return response()->json(['msg' => 'Data Image Type dengan ID ' . $id . ' berhasil dihapus']);
+        ImageType::where('id', $id)->delete();
+        return redirect(route('image_type.lists'));
+    }
+
+    // CATEGORY ===================================================
+
+    public function getCategory()
+    {
+        $categories = Category::all();
+        return view('admin.category.index', ['categories' => $categories]);
+    }
+
+    public function detailCategory($id)
+    {
+        $category = Category::find($id);
+        return view('admin.category.details', ['category' => $category]);
+    }
+
+    public function createCategory(CategoryRequest $request)
+    {
+        Category::create([
+            'name' => $request['name'],
+            'desc' => $request['desc']
+        ]);
+        return redirect(route('category.lists'));
+    }
+
+    public function addCategory()
+    {
+        return view('admin.category.add');
+    }
+
+    public function updateCategory($id, CategoryRequest $request)
+    {
+        $category = Category::find($id);
+        $category->name = $request->name;
+        $category->desc = $request->desc;
+        $category->save();
+        return redirect(route('category.lists'));
+    }
+
+    public function deleteCategory($id)
+    {
+        Category::where('id', $id)->delete();
+        return redirect(route('category.lists'));
     }
 }

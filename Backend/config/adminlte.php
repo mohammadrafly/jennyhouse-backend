@@ -336,6 +336,18 @@ return [
             'url'  => 'admin/products',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        ['header' => 'CATEGORY SETTINGS'],
+        [
+            'text' => 'Category',
+            'url'  => 'admin/categories',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        ['header' => 'IMAGE TYPE SETTINGS'],
+        [
+            'text' => 'Image Type',
+            'url'  => 'admin/image_types',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
     ],
 
     /*

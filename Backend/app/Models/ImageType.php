@@ -9,7 +9,12 @@ class ImageType extends Model
 {
     use HasFactory;
 
-    public function images(){
+    protected $fillable = [
+        'name'
+    ];
+
+    public function images()
+    {
         return $this->hasMany(Image::class);
     }
 }
