@@ -291,21 +291,21 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -328,25 +328,25 @@ return [
         [
             'text' => 'Posts',
             'url'  => 'admin/posts',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'nav-icon fas fa-copy',
         ],
         ['header' => 'PRODUCT SETTINGS'],
         [
             'text' => 'Product',
             'url'  => 'admin/products',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'nav-icon fas fa-bookmark',
         ],
         ['header' => 'CATEGORY SETTINGS'],
         [
             'text' => 'Category',
             'url'  => 'admin/categories',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'nav-icon fas fa-th',
         ],
         ['header' => 'IMAGE TYPE SETTINGS'],
         [
             'text' => 'Image Type',
             'url'  => 'admin/image_types',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'nav-icon fas fa-file-alt',
         ],
     ],
 
