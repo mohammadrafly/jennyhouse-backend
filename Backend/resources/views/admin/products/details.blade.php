@@ -8,31 +8,22 @@
 
 @section('content')
     <div class="card-body">
-        <form method="POST" action="{{ route('product.update',$product->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('product.update',$product->id) }}">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <x-adminlte-select-bs id="optionsCategory" name="category_id" label="Categories">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-red">
-                                <i class="fas fa-tag"></i>
-                            </div>
-                        </x-slot>
-                        <option value="{{ $product->category_id }}">{{ $product->category->name }}</option>
-                        @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                        </x-adminlte-select-bs>
+                        <label>Name</label>
+                        <input type="text" name="name" value="{{ $product->name }}" class="form-control" placeholder="Name for product">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" value="{{ $product->name }}" class="form-control" placeholder="Name for product">
+                        <label>Slug</label>
+                        <input type="text" name="slug" value="{{ $product->slug }}" class="form-control" placeholder="Slug for product">
                     </div>
                 </div>
             </div>

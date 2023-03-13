@@ -10,23 +10,6 @@
     <div class="card-body">
         <form method="POST" action="{{ route('product.create') }}" enctype="multipart/form-data">
             @csrf
-            
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <x-adminlte-select-bs id="optionsCategory" name="category_id" label="Categories">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-red">
-                                <i class="fas fa-tag"></i>
-                            </div>
-                        </x-slot>
-                        @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                        </x-adminlte-select-bs>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -38,7 +21,15 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Link</label>
+                        <label>Slug</label>
+                        <input type="text" name="slug" class="form-control" placeholder="Slug for product">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Link Product</label>
                         <input type="text" name="link" class="form-control" placeholder="Link for product">
                     </div>
                 </div>

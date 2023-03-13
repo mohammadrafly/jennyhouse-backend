@@ -10,10 +10,10 @@
     <table id="table" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Category</th>
                 <th>Name</th>
                 <th>Link</th>
                 <th>Price</th>
+                <th>Slug</th>
                 <th>Description</th>
                 <th>Image</th>
                 <th>Updated At</th>
@@ -24,14 +24,14 @@
             {{-- {{ dd($products) }} --}}
             @foreach($products as $product)
             <tr>
-                <td>{{ $product->category->name }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->link }}</td>
+                <td>{{ $product->slug }}</td>
                 <td>${{ $product->price }}</td>
+                <td>{{ $product->desc }}</td>
                 <td>
                     <img style="width: 35px; height: 35px" src="/storage/products/images/{{ $product->image }}" alt="" srcset="">
                 </td>
-                <td>{{ $product->desc }}</td>
                 <td>{{ $product->updated_at }}</td>
                 <td>
                     <a href="{{ route('product.details',$product->id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
