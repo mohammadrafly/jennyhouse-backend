@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin/users',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -341,12 +341,6 @@ return [
             'text' => 'Category',
             'url'  => 'admin/categories',
             'icon' => 'nav-icon fas fa-th',
-        ],
-        ['header' => 'IMAGE TYPE SETTINGS'],
-        [
-            'text' => 'Image Type',
-            'url'  => 'admin/image_types',
-            'icon' => 'nav-icon fas fa-file-alt',
         ],
     ],
 
