@@ -71,12 +71,17 @@ class BlogController extends Controller
         $published = Post::with('products')->where('published', 1)->get();
         return response()->json(['msg' => 'success', 'posts' => $published]);
     }
-    
+
     // -join posts+categories+product where posts.slug $params
-    // -join posts+categories where categories.title $params
     public function getPostSlug()
     {
-        
     }
 
+    // -join posts+categories where categories.title $params
+    public function getPostCategory($name)
+    {
+        $category = Category::where('name', $name)->first();
+        $posts = Post::with('category')->where('category_id', $category->id)->get();
+        return response()->json(['msg' => 'success', 'posts' => $posts]);
+    }
 }

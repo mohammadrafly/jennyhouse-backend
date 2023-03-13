@@ -45,7 +45,8 @@ Route::controller(BlogController::class)->group(function () {
     //Get Post Published True
     Route::get('/post/published', 'getPublished');
 
-    //
+    //Get Post With Custom Category Name
+    Route::get('/post/{name}', 'getPostCategory');
 });
 
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
