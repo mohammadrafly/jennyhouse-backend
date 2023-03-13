@@ -14,8 +14,8 @@
                 <th>Category</th>
                 <th>Product</th>
                 <th>Title</th>
-                <th>Description</th>
-                <th>Video</th>
+                <th>Slug</th>
+                <th>Content</th>
                 <th>Published</th>
                 <th>Image</th>
                 <th>Updated At</th>
