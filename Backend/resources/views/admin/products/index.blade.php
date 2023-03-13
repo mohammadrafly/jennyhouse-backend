@@ -30,7 +30,7 @@
                 <td>${{ $product->price }}</td>
                 <td>{{ $product->desc }}</td>
                 <td>
-                    <img style="width: 35px; height: 35px" src="/storage/products/images/{{ $product->image }}" alt="" srcset="">
+                    <img style="width: 35px; height: 35px" src="{{ asset('uploads/'.$product->image) }}" alt="" srcset="">
                 </td>
                 <td>{{ $product->updated_at }}</td>
                 <td>

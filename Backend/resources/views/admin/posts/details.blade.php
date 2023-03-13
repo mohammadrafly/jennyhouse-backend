@@ -27,7 +27,7 @@
                         </x-adminlte-select-bs>
                     </div>
                     <div class="form-group">
-                        <x-adminlte-select-bs id="optionsCategory" name="product_id" label="Products">
+                        <x-adminlte-select-bs id="optionsCategory" multiple name="product_id[]" label="Products">
                         <x-slot name="prependSlot">
                             <div class="input-group-text bg-gradient-red">
                                 <i class="fas fa-tag"></i>

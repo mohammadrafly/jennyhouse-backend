@@ -13,7 +13,9 @@ use App\Models\ImageType;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\PostProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -46,7 +48,9 @@ class AdminController extends Controller
     // POST ===================================================
     public function getPost()
     {
-        $posts = Post::with('products')->get();
+        $post = new Post;
+        $posts = $post->PostProductAndCats();
+        //dd($posts);
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
@@ -61,21 +65,32 @@ class AdminController extends Controller
     public function createPost(Request $request)
     {
         $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file->storeAs('public/posts/images/', $filename);
-        $post = Post::create([
+        $fileExtension = $file->getClientOriginalExtension();
+        $fileName = Str::random(20). '.'. $fileExtension;
+        $file->move(public_path('uploads/'), $fileName);
+        $product_id = $request->input('product_id');
+        $data = [
             'user_id' => auth()->user()->id,
             'category_id' => $request['category_id'],
             'title' => $request['title'],
             'slug' => $request['slug'],
-            'content' => $request['content'],
-            'image' => $filename,
+            'content' => htmlspecialchars($request['content']),
+            'image' => $fileName,
             'published' => $request['published'],
-        ]);
+        ];
 
-        $post->products()->attach($request['product_id'], ['post_id' => $post->id]);
-
-        return redirect(route('post.lists'));
+        if (Post::create($data)) {
+            $id = Post::where('title', $data['title'])->first();
+            $data = [];
+            for ($i=0; $i < count($product_id); $i++) {
+                $data[$i] = [
+                    'post_id' => $id['id'],
+                    'product_id' => $product_id[$i]
+                ];
+            }
+            PostProduct::insert($data);
+            return redirect(route('post.lists'));
+        }
     }
 
     public function addPost()
@@ -88,23 +103,106 @@ class AdminController extends Controller
     public function updatePost($id, PostRequest $request)
     {
         $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file->storeAs('public/posts/images/', $filename);
-
-        $post = Post::find($id);
-        $post->user_id = auth()->user()->id;
-        $post->category_id = $request->category_id;
-        $post->title = $request->title;
-        $post->slug = $request->slug;
-        $post->content = $request->content;
-        $post->published = $request->published;
-        $post->image = $filename;
-
-        $post->save();
-
-        $post->products()->sync([$request['product_id'] => ['post_id' => $post->id]]);
-
-        return redirect(route('post.lists'));
+        if ($file != null) {
+            $fileExtension = $file->getClientOriginalExtension();
+            $fileName = Str::random(20). '.'. $fileExtension;
+            $file->move(public_path('uploads/'), $fileName);
+            $data =[
+                'user_id' => auth()->user()->id,
+                'category_id' => $request['category_id'],
+                'title' => $request['title'],
+                'slug' => $request['slug'],
+                'content' => htmlspecialchars($request['content']),
+                'image' => $fileName,
+                'published' => $request['published'],
+            ];
+            $product_id = $request->input('product_id');
+            $post = Post::find($id);
+            if ($post->save()) {
+                if (PostProduct::where('post_id', $post['id'])->first()) {
+                    if (PostProduct::where('post_id', $post['id'])->delete()) {
+                        $id = Post::where('title', $data['title'])->first();
+                        $data = [];
+                        for ($i=0; $i < count($product_id); $i++) {
+                            $data[$i] = [
+                                'post_id' => $id['id'],
+                                'product_id' => $product_id[$i]
+                            ];
+                        }
+                        PostProduct::insert($data);
+                        return redirect(route('post.lists'));
+                    } else {
+                        echo 'fail deleting data';
+                    }
+                } else {
+                    $id = Post::where('title', $data['title'])->first();
+                    $data = [];
+                    for ($i=0; $i < count($product_id); $i++) {
+                        $data[$i] = [
+                            'post_id' => $id['id'],
+                            'product_id' => $product_id[$i]
+                        ];
+                    }
+                    PostProduct::insert($data);
+                    return redirect(route('post.lists'));
+                }
+            } else {
+                echo 'error';
+            }
+        } elseif ($file == null) {
+            $data =[
+                'user_id' => auth()->user()->id,
+                'category_id' => $request['category_id'],
+                'title' => $request['title'],
+                'slug' => $request['slug'],
+                'content' => htmlspecialchars($request['content']),
+                'published' => $request['published'],
+            ];
+            $product_id = $request->input('product_id');
+            $post = Post::find($id);
+            if ($post->save()) {
+                if (PostProduct::where('post_id', $post['id'])->first()) {
+                    if (PostProduct::where('post_id', $post['id'])->delete()) {
+                        $id = Post::where('title', $data['title'])->first();
+                        $data = [];
+                        for ($i=0; $i < count($product_id); $i++) {
+                            $data[$i] = [
+                                'post_id' => $id['id'],
+                                'product_id' => $product_id[$i]
+                            ];
+                        }
+                        PostProduct::insert($data);
+                        return redirect(route('post.lists'));
+                    } else {
+                        echo 'fail deleting data';
+                    }
+                } else {
+                    $id = Post::where('title', $data['title'])->first();
+                    $data = [];
+                    for ($i=0; $i < count($product_id); $i++) {
+                        $data[$i] = [
+                            'post_id' => $id['id'],
+                            'product_id' => $product_id[$i]
+                        ];
+                    }
+                    PostProduct::insert($data);
+                    return redirect(route('post.lists'));
+                }
+            } else {
+                echo 'error';
+            }
+        } elseif ($request->input('product_id') == null) {
+            $post = Post::find($id);
+            $post->save([
+                'user_id' => auth()->user()->id,
+                'category_id' => $request['category_id'],
+                'title' => $request['title'],
+                'slug' => $request['slug'],
+                'content' => htmlspecialchars($request['content']),
+                'published' => $request['published'],
+            ]);
+            return redirect(route('post.lists'));
+        }
     }
 
     public function deletePost($id)
@@ -129,14 +227,16 @@ class AdminController extends Controller
     public function createProduct(Request $request)
     {
         $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file->storeAs('public/products/images/', $filename);
+        $fileExtension = $file->getClientOriginalExtension();
+        $fileName = Str::random(20). '.'. $fileExtension;
+        $file->move(public_path('uploads/'), $fileName);
+        
         Product::create([
             'category_id' => $request['category_id'],
             'name' => $request['name'],
             'link' => $request['link'],
             'slug' => $request['slug'],
-            'image' => $filename,
+            'image' => $fileName,
             'price' => $request['price'],
             'desc' => $request['desc'],
         ]);
@@ -152,13 +252,14 @@ class AdminController extends Controller
     public function updateProduct($id, ProductRequest $request)
     {
         $file = $request->file('image');
-        $filename = $file->getClientOriginalName();
-        $file->storeAs('public/products/images/', $filename);
+        $fileExtension = $file->getClientOriginalExtension();
+        $fileName = Str::random(20). '.'. $fileExtension;
+        $file->move(public_path('uploads/'), $fileName);
         $product = Product::find($id);
         $product->name = $request->name;
         $product->slug = $request->slug;
         $product->link = $request->link;
-        $product->image = $filename;
+        $product->image = $fileName;
         $product->price = $request->price;
         $product->desc = $request->desc;
 

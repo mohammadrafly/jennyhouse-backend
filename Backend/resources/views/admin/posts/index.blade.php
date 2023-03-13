@@ -12,7 +12,6 @@
             <tr>
                 <th>User ID</th>
                 <th>Category</th>
-                <th>Product</th>
                 <th>Title</th>
                 <th>Slug</th>
                 <th>Content</th>
@@ -26,22 +25,19 @@
             {{-- {{ dd($posts) }} --}}
             @foreach($posts as $post)
             <tr>
-                <td>{{ $post->user_id }}</td>
-                <td>{{ $post->category->name }}</td>
-                @foreach($post->products as $product)
-                <td>{{ $product->name }}</td>
-                @endforeach
-                <td>{{ $post->title }}</td>
-                <td>{{ $post->slug }}</td>
-                <td>{{ $post->content }}</td>
-                <td>{{ $post->published }}</td>
+                <td>{{ $post->users_name }}</td>
+                <td>{{ $post->category_title }}</td>
+                <td>{{ $post->posts_title }}</td>
+                <td>{{ $post->posts_slug }}</td>
+                <td>{{ Str::limit($post->posts_content, 50) }}</td>
+                <td>{{ $post->posts_published }}</td>
                 <td>
-                    <img style="width: 35px; height: 35px" src="/storage/posts/images/{{ $post->image }}" alt="" srcset="">
+                    <img style="width: 35px; height: 35px" src="{{ asset('uploads/'.$post->posts_image) }}" alt="" srcset="">
                 </td>
-                <td>{{ $post->updated_at }}</td>
+                <td>{{ $post->posts_date }}</td>
                 <td>
-                    <a href="{{ route('post.details',$post->id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
-                    <form method="POST" action="{{ route('post.delete',$post->id) }}">
+                    <a href="{{ route('post.details',$post->posts_id) }}"><x-adminlte-button label="Info" theme="info" icon="fas fa-info-circle"/></a>
+                    <form method="POST" action="{{ route('post.delete',$post->posts_id) }}">
                         @csrf
                         @method('DELETE')
                         <x-adminlte-button type="submit" label="Delete" theme="danger" icon="fas fa-ban"/>
