@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Slug</label>
+                        <label>Slug (*gunakan title sebagai slug dengan format: judul-title-yang-akan-upload)</label>
                         <input type="text" name="slug" class="form-control" placeholder="Slug | slug-text">
                     </div>
                 </div>
