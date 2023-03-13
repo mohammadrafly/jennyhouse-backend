@@ -27,6 +27,22 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <x-adminlte-select-bs id="optionsCategory" name="product_id" label="Products">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-red">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </x-slot>
+                        @foreach($products as $product)
+                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @endforeach
+                        </x-adminlte-select-bs>
+                    </div>
+                </div>
+            </div>
         
             <div class="row">
                 <div class="col-sm-6">
@@ -39,16 +55,16 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" name="desc" rows="3" placeholder="Description for article"></textarea>
+                        <label>Slug</label>
+                        <input type="text" name="slug" class="form-control" placeholder="Slug | slug-text">
                     </div>
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Video</label>
-                        <input type="text" name="video" class="form-control" placeholder="Video embed for article">
+                        <label>Content</label><br>
+                        <textarea id="editor" name="content"></textarea>
                     </div>
                 </div>
             </div>
@@ -63,16 +79,8 @@
             </div>        
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="">Header Image</label><br>
-                    <input type="file" name="image1" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>           
-                </div>
-                <div class="form-group">
-                    <label for="">Content Image</label><br>
-                    <input type="file" name="image2" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Content Image</label><br>
-                    <input type="file" name="image3" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" igroup-size="sm"/>
+                    <label for="">Image</label><br>
+                    <input type="file" name="image" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" igroup-size="sm"/>           
                 </div>
                 <div class="form-group">
                     <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success" icon="fas fa-lg fa-save"/>
@@ -87,5 +95,10 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script src="https://cdn.tiny.cloud/1/dly10rldwl93fpwdoi8nv78im7skypdt2x18nwuoh1juc8eb/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+          tinymce.init({
+            selector: 'textarea#editor',
+          });
+        </script>
 @stop

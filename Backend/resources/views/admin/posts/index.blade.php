@@ -28,13 +28,11 @@
                 <td>{{ $post->user_id }}</td>
                 <td>{{ $post->category->name }}</td>
                 <td>{{ $post->title }}</td>
-                <td>{{ $post->desc }}</td>
-                <td>{{ $post->video }}</td>
+                <td>{{ $post->slug }}</td>
+                <td>{{ $post->content }}</td>
                 <td>{{ $post->published }}</td>
                 <td>
-                    @foreach ($post->images as $image)
-                    <img style="width: 35px; height: 35px" src="/storage/posts/images/{{ $image->image }}" alt="" srcset="">
-                    @endforeach
+                    <img style="width: 35px; height: 35px" src="/storage/posts/images/{{ $post->image }}" alt="" srcset="">
                 </td>
                 <td>{{ $post->updated_at }}</td>
                 <td>

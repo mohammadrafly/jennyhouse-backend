@@ -53,8 +53,9 @@ class AdminController extends Controller
     public function detailPost($id)
     {
         $post = Post::with('products')->find($id);
+        $productAll = Product::all();
         $categories = Category::all();
-        return view('admin.posts.details', ['post' => $post, 'categories' => $categories]);
+        return view('admin.posts.details', ['post' => $post, 'categories' => $categories, 'productAll' => $productAll]);
     }
 
     public function createPost(Request $request)
@@ -72,6 +73,7 @@ class AdminController extends Controller
             'published' => $request['published'],
         ]);
 
+        $post->products()->attach($request['product_id'], ['post_id' => $post->id]);
 
         return redirect(route('post.lists'));
     }
@@ -79,7 +81,8 @@ class AdminController extends Controller
     public function addPost()
     {
         $categories = Category::all();
-        return view('admin.posts.add', ['categories' => $categories]);
+        $products = Product::all();
+        return view('admin.posts.add', ['categories' => $categories, 'products' => $products]);
     }
 
     public function updatePost($id, PostRequest $request)
@@ -99,6 +102,7 @@ class AdminController extends Controller
 
         $post->save();
 
+        $post->products()->sync([$request['product_id'] => ['post_id' => $post->id]]);
 
         return redirect(route('post.lists'));
     }
@@ -112,15 +116,14 @@ class AdminController extends Controller
     // PRODUCT ===================================================
     public function getProduct()
     {
-        $products = Product::all();
+        $products = Product::with('posts')->get();
         return view('admin.products.index', ['products' => $products]);
     }
 
     public function detailProduct($id)
     {
-        $product = Product::find($id);
-        $categories = Category::all();
-        return view('admin.products.details', ['product' => $product, 'categories' => $categories]);
+        $product = Product::with('posts')->find($id);
+        return view('admin.products.details', ['product' => $product]);
     }
 
     public function createProduct(Request $request)
@@ -132,8 +135,8 @@ class AdminController extends Controller
             'category_id' => $request['category_id'],
             'name' => $request['name'],
             'link' => $request['link'],
-            'price' => $request['price'],
             'image' => $filename,
+            'price' => $request['price'],
             'desc' => $request['desc'],
         ]);
 
@@ -142,8 +145,7 @@ class AdminController extends Controller
 
     public function addProduct()
     {
-        $categories = Category::all();
-        return view('admin.products.add', ['categories' => $categories]);
+        return view('admin.products.add');
     }
 
     public function updateProduct($id, ProductRequest $request)
@@ -155,8 +157,8 @@ class AdminController extends Controller
         $product->category_id = $request->category_id;
         $product->name = $request->name;
         $product->price = $request->price;
-        $product->link = $request->link;
         $product->image = $filename;
+        $product->link = $request->link;
         $product->desc = $request->desc;
 
         $product->save();

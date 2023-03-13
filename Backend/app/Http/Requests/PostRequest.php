@@ -23,9 +23,11 @@ class PostRequest extends FormRequest
     {
         return [
             'category_id' => 'required',
+            'product_id' => 'required',
             'title' => 'required',
-            'desc' => 'required',
-            'video' => 'required',
+            'slug' => 'required',
+            'content' => 'required',
+            'image' => 'file|image|max:2048|mimes:jpeg,png,jpg',
             'published' => 'required|boolean',
         ];
     }
