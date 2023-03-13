@@ -73,8 +73,15 @@ class BlogController extends Controller
     }
 
     // -join posts+categories+product where posts.slug $params
-    public function getPostSlug()
+    public function getPostSlug($slug)
     {
+        $posts = Post::with('products')->where('slug', $slug)->get();
+
+        if ($posts->count() > 0) {
+            return response()->json(['msg' => 'success', 'posts' => $posts]);
+        } else {
+            return response()->json(['msg' => 'error', 'error' => 'Post not found']);
+        }
     }
 
     // -join posts+categories where categories.title $params
