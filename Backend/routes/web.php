@@ -42,13 +42,10 @@ Route::controller(BlogController::class)->group(function () {
     Route::get('/products', 'getProduct');
     Route::get('/products/{id}', 'detailProduct');
 
-    // Image
-    Route::get('/images', 'getImage');
-    Route::get('/images/{id}', 'detailImage');
+    //Get Post Published True
+    Route::get('/post/published', 'getPublished');
 
-    // ImageType
-    Route::get('/image-types', 'getImageType');
-    Route::get('/images-types/{id}', 'detailImageType');
+    //
 });
 
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {

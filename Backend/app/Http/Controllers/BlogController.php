@@ -64,4 +64,19 @@ class BlogController extends Controller
         $product = Product::find($id);
         return response()->json(['msg' => 'Data product berhasil tampil', 'image' => $product]);
     }
+
+    //-join posts+categories where published TRUE
+    public function getPublished()
+    {
+        $published = Post::with('products')->where('published', 1)->get();
+        return response()->json(['msg' => 'success', 'posts' => $published]);
+    }
+    
+    // -join posts+categories+product where posts.slug $params
+    // -join posts+categories where categories.title $params
+    public function getPostSlug()
+    {
+        
+    }
+
 }
