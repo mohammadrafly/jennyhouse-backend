@@ -46,44 +46,32 @@ class AdminController extends Controller
     // POST ===================================================
     public function getPost()
     {
-        $posts = Post::with('images')->get();
+        $posts = Post::with('products')->get();
         return view('admin.posts.index', ['posts' => $posts]);
     }
 
     public function detailPost($id)
     {
-        $post = Post::with('images')->find($id);
+        $post = Post::with('products')->find($id);
         $categories = Category::all();
         return view('admin.posts.details', ['post' => $post, 'categories' => $categories]);
     }
 
     public function createPost(Request $request)
     {
+        $file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $file->storeAs('public/posts/images/', $filename);
         $post = Post::create([
             'user_id' => auth()->user()->id,
             'category_id' => $request['category_id'],
             'title' => $request['title'],
-            'desc' => $request['desc'],
+            'slug' => $request['slug'],
+            'content' => $request['content'],
+            'image' => $filename,
             'published' => $request['published'],
-            'video' => $request['video'],
         ]);
 
-        $images = [
-            ['name' => 'image1', 'type' => 1],
-            ['name' => 'image2', 'type' => 2],
-            ['name' => 'image3', 'type' => 2],
-        ];
-
-        foreach ($images as $image) {
-            $file = $request->file($image['name']);
-            $filename = $file->getClientOriginalName();
-            $file->storeAs('public/posts/images/', $filename);
-            Image::create([
-                'image_types_id' => $image['type'],
-                'post_id' => $post->id,
-                'image' => $filename
-            ]);
-        }
 
         return redirect(route('post.lists'));
     }
@@ -96,32 +84,22 @@ class AdminController extends Controller
 
     public function updatePost($id, PostRequest $request)
     {
+        $file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $file->storeAs('public/posts/images/', $filename);
+
         $post = Post::find($id);
         $post->user_id = auth()->user()->id;
         $post->category_id = $request->category_id;
         $post->title = $request->title;
-        $post->desc = $request->desc;
+        $post->slug = $request->slug;
+        $post->content = $request->content;
         $post->published = $request->published;
-        $post->video = $request->video;
+        $post->image = $filename;
 
         $post->save();
 
-        $images = [
-            ['name' => 'image1', 'type' => 1],
-            ['name' => 'image2', 'type' => 2],
-            ['name' => 'image3', 'type' => 2],
-        ];
 
-        foreach ($images as $image) {
-            $file = $request->file($image['name']);
-            $filename = $file->getClientOriginalName();
-            $file->storeAs('public/posts/images/', $filename);
-            $post->images()->updateOrCreate([
-                'image_types_id' => $image['type'],
-                'post_id' => $id,
-                'image' => $filename
-            ]);
-        }
         return redirect(route('post.lists'));
     }
 
@@ -190,46 +168,6 @@ class AdminController extends Controller
     {
         Product::where('id', $id)->delete();
         return redirect(route('product.lists'));
-    }
-
-    // IMAGETYPE ===================================================
-    public function getImageType()
-    {
-        $image_types = ImageType::all();
-        return view('admin.image-type.index', ['image_types' => $image_types]);
-    }
-
-    public function detailImageType($id)
-    {
-        $image_type = ImageType::find($id);
-        return view('admin.image-type.details', ['image_type' => $image_type]);
-    }
-
-    public function createImageType(ImageTypeRequest $request)
-    {
-        ImageType::create([
-            'name' => $request['name']
-        ]);
-        return redirect(route('image_type.lists'));
-    }
-
-    public function addImageType()
-    {
-        return view('admin.image-type.add');
-    }
-
-    public function updateImageType($id, ImageTypeRequest $request)
-    {
-        $image_type = ImageType::find($id);
-        $image_type->name = $request->name;
-        $image_type->save();
-        return redirect(route('image_type.lists'));
-    }
-
-    public function deleteImageType($id)
-    {
-        ImageType::where('id', $id)->delete();
-        return redirect(route('image_type.lists'));
     }
 
     // CATEGORY ===================================================
