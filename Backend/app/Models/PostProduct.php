@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImageType extends Model
+class PostProduct extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'post_id',
+        'product_id'
     ];
-
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
 }

@@ -28,65 +28,40 @@ class BlogController extends Controller
     // POST
     public function getPost()
     {
-        $posts = Post::with('images')->get();
+        $posts = Post::with('products')->get();
         return response()->json(['msg' => 'Data post berhasil tampil', 'posts' => $posts]);
     }
 
     public function detailPost($id)
     {
-        $post = Post::with('images')->find($id);
+        $post = Post::with('products')->find($id);
         return response()->json(['msg' => 'Data post berhasil tampil', 'post' => $post]);
     }
 
-    // IMAGE
-    public function getImage()
-    {
-        $images = Image::all();
-        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $images]);
-    }
-
-    public function detailImage($id)
-    {
-        $image = Image::find($id);
-        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $image]);
-    }
-
-    // IMAGE TYPE
-    public function getImageType()
-    {
-        $types = ImageType::all();
-        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $types]);
-    }
-
-    public function detailImageType($id)
-    {
-        $type = ImageType::find($id);
-        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $type]);
-    }
 
     // CATEGORY
     public function getCategory()
     {
         $categories = Category::all();
-        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $categories]);
+        return response()->json(['msg' => 'Data category berhasil tampil', 'images' => $categories]);
     }
 
     public function detailCategory($id)
     {
         $categori = Category::find($id);
-        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $categori]);
+        return response()->json(['msg' => 'Data category berhasil tampil', 'image' => $categori]);
     }
 
     // PRODUCT
     public function getProduct()
     {
-        $products = Product::all();
-        return response()->json(['msg' => 'Data image berhasil tampil', 'images' => $products]);
+        $products = Product::with('posts')->get();
+        return response()->json(['msg' => 'Data product berhasil tampil', 'images' => $products]);
     }
 
     public function detailProduct($id)
     {
         $product = Product::find($id);
-        return response()->json(['msg' => 'Data image berhasil tampil', 'image' => $product]);
+        return response()->json(['msg' => 'Data product berhasil tampil', 'image' => $product]);
     }
 }

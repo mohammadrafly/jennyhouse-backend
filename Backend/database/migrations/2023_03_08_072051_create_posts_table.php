@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('category_id')->constrained('categories');
             $table->string('title');
-            $table->text('desc');
-            $table->string('video');
+            $table->string('slug');
+            $table->text('content');
+            $table->string('image');
             $table->boolean('published');
             $table->softDeletes();
             $table->timestamps();

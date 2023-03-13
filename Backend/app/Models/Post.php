@@ -14,14 +14,15 @@ class Post extends Model
         'user_id',
         'category_id',
         'title',
-        'desc',
-        'video',
+        'slug',
+        'content',
+        'image',
         'published',
     ];
 
-    public function images()
+    public function products()
     {
-        return $this->hasMany(Image::class);
+        return $this->belongsToMany(Product::class, 'post_products', 'id', 'product_id');
     }
 
     public function category()

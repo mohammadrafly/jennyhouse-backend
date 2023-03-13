@@ -67,7 +67,7 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::put('/posts/{id}', 'updatePost')->name('post.update');
         Route::delete('/posts/{id}', 'deletePost')->name('post.delete');
         Route::get('/posts-add', 'addPost')->name('post.add-page');
-        
+
         // Product
         Route::get('/products', 'getProduct')->name('product.lists');
         Route::get('/products/{id}', 'detailProduct')->name('product.details');
@@ -75,7 +75,7 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::put('/products/{id}', 'updateProduct')->name('product.update');
         Route::delete('/products/{id}', 'deleteProduct')->name('product.delete');
         Route::get('/products-add', 'addProduct')->name('product.add-page');
-        
+
         // IMAGE TYPE
         Route::get('/image_types', 'getImageType')->name('image_type.lists');
         Route::get('/image_types/{id}', 'detailImageType')->name('image_type.details');
@@ -83,7 +83,7 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::put('/image_types/{id}', 'updateImageType')->name('image_type.update');
         Route::delete('/image_types/{id}', 'deleteImageType')->name('image_type.delete');
         Route::get('/image_types-add', 'addImageType')->name('image_type.add-page');
-        
+
         // CATEGORY
         Route::get('/categories', 'getCategory')->name('category.lists');
         Route::get('/categories/{id}', 'detailCategory')->name('category.details');
