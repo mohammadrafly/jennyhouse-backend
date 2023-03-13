@@ -154,13 +154,12 @@ class AdminController extends Controller
         $file = $request->file('image');
         $filename = $file->getClientOriginalName();
         $file->storeAs('public/products/images/', $filename);
-        $product = Product::with('posts')->find($id);
-        // $product->category_id = $request->category_id;
+        $product = Product::find($id);
         $product->name = $request->name;
         $product->slug = $request->slug;
-        $product->price = $request->price;
-        $product->image = $filename;
         $product->link = $request->link;
+        $product->image = $filename;
+        $product->price = $request->price;
         $product->desc = $request->desc;
 
         $product->save();

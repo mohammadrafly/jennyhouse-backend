@@ -8,9 +8,9 @@
 
 @section('content')
     <div class="card-body">
-        <form method="POST" action="{{ route('product.update',$product->id) }}">
-            @csrf
+        <form method="POST" action="{{ route('product.update',$product->id) }}" enctype="multipart/form-data">
             @method('PUT')
+            @csrf
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Link</label>
+                        <label>Link Product</label>
                         <input type="text" name="link" value="{{ $product->link }}" class="form-control" placeholder="Link for product">
                     </div>
                 </div>
