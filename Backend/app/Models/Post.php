@@ -23,6 +23,7 @@ class Post extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'post_products', 'id', 'product_id');
+        // return $this->belongsToMany(Product::class);
     }
 
     public function category()

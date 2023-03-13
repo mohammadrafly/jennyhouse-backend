@@ -12,6 +12,7 @@
             <tr>
                 <th>User ID</th>
                 <th>Category</th>
+                <th>Product</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Video</th>
@@ -27,6 +28,9 @@
             <tr>
                 <td>{{ $post->user_id }}</td>
                 <td>{{ $post->category->name }}</td>
+                @foreach($post->products as $product)
+                <td>{{ $product->name }}</td>
+                @endforeach
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->slug }}</td>
                 <td>{{ $post->content }}</td>
