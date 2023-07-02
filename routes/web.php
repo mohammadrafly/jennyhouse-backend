@@ -94,7 +94,3 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
         Route::get('/categories-add', 'addCategory')->name('category.add-page');
     });
 });
-
-// Route::get('/token', function () {
-//     return csrf_token();
-// });
