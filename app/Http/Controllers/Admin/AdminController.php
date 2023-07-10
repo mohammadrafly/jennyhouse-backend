@@ -248,17 +248,25 @@ class AdminController extends Controller
     public function updateProduct($id, ProductRequest $request)
     {
         $file = $request->file('image');
-        $fileExtension = $file->getClientOriginalExtension();
-        $fileName = Str::random(20). '.'. $fileExtension;
-        $file->move(public_path('uploads/'), $fileName);
-        $product = Product::find($id);
-        $product->name = $request->name;
-        $product->slug = $request->slug;
-        $product->link = $request->link;
-        $product->image = $fileName;
-        $product->price = $request->price;
-        $product->desc = $request->desc;
-
+        if ($file) {
+            $fileExtension = $file->getClientOriginalExtension();
+            $fileName = Str::random(20). '.'. $fileExtension;
+            $file->move(public_path('uploads/'), $fileName);
+            $product = Product::find($id);
+            $product->name = $request->name;
+            $product->slug = $request->slug;
+            $product->link = $request->link;
+            $product->image = $fileName;
+            $product->price = $request->price;
+            $product->desc = $request->desc;
+        } else {
+            $product = Product::find($id);
+            $product->name = $request->name;
+            $product->slug = $request->slug;
+            $product->link = $request->link;
+            $product->price = $request->price;
+            $product->desc = $request->desc;
+        }
         $product->save();
 
         return redirect(route('product.lists'));
