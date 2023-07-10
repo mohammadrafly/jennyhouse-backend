@@ -84,6 +84,7 @@ class Post extends Model
                 'products.desc as products_content',
                 'products.link as products_link',
                 'products.image as products_image',
+                'products.price as harga',
                 )
             ->where('posts.slug', $slug)
             ->get();
