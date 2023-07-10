@@ -109,7 +109,7 @@ class AdminController extends Controller
     public function updatePost($id, PostRequest $request)
     {
         $file = $request->file('image');
-        if ($file != null) {
+        if ($file) {
             $fileExtension = $file->getClientOriginalExtension();
             $fileName = Str::random(20). '.'. $fileExtension;
             $file->move(public_path('uploads/'), $fileName);
@@ -198,17 +198,6 @@ class AdminController extends Controller
             } else {
                 echo 'error';
             }
-        } elseif ($request->input('product_id') == null) {
-            $post = Post::find($id);
-            $post->save([
-                'user_id' => auth()->user()->id,
-                'category_id' => $request['category_id'],
-                'title' => $request['title'],
-                'slug' => $request['slug'],
-                'content' => htmlspecialchars($request['content']),
-                'published' => $request['published'],
-            ]);
-            return redirect(route('post.lists'));
         }
     }
 
