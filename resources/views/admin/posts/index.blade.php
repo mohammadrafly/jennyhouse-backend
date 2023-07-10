@@ -15,6 +15,7 @@
                 <th>Title</th>
                 <th>Slug</th>
                 <th>Content</th>
+                <th>Deleted At</th>
                 <th>Published</th>
                 <th>Image</th>
                 <th>Updated At</th>
@@ -30,6 +31,7 @@
                 <td>{{ $post->posts_title }}</td>
                 <td>{{ $post->posts_slug }}</td>
                 <td>{{ Str::limit($post->posts_content, 50) }}</td>
+                <td>{{ $post->deleted_at }}</td>
                 <td>{{ $post->posts_published }}</td>
                 <td>
                     <img style="width: 35px; height: 35px" src="{{ asset('uploads/'.$post->posts_image) }}" alt="" srcset="">

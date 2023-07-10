@@ -56,10 +56,16 @@ class AdminController extends Controller
 
     public function detailPost($id)
     {
-        $post = Post::with('products')->find($id);
+        $model = new Post();
+        $post = $model->AssociateItem($id);
         $productAll = Product::all();
         $categories = Category::all();
-        return view('admin.posts.details', ['post' => $post, 'categories' => $categories, 'productAll' => $productAll]);
+        //dd($post);
+        return view('admin.posts.details', [
+            'post' => $post, 
+            'categories' => $categories, 
+            'productAll' => $productAll
+        ]);
     }
 
     public function createPost(Request $request)
@@ -118,7 +124,7 @@ class AdminController extends Controller
             ];
             $product_id = $request->input('product_id');
             $post = Post::find($id);
-            if ($post->save()) {
+            if ($post->update($data)) {
                 if (PostProduct::where('post_id', $post['id'])->first()) {
                     if (PostProduct::where('post_id', $post['id'])->delete()) {
                         $id = Post::where('title', $data['title'])->first();
@@ -160,7 +166,8 @@ class AdminController extends Controller
             ];
             $product_id = $request->input('product_id');
             $post = Post::find($id);
-            if ($post->save()) {
+            //dd($post);
+            if ($post->update($data)) {
                 if (PostProduct::where('post_id', $post['id'])->first()) {
                     if (PostProduct::where('post_id', $post['id'])->delete()) {
                         $id = Post::where('title', $data['title'])->first();
@@ -207,7 +214,7 @@ class AdminController extends Controller
 
     public function deletePost($id)
     {
-        $post = Post::where('id', $id)->delete();
+        Post::where('id', $id)->delete();
         return redirect(route('post.lists'));
     }
 

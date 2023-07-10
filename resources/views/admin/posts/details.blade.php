@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="card-body">
-        <form method="POST" action="{{ route('post.update',$post->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('post.update',$post[0]->id) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="row">
@@ -20,7 +20,7 @@
                                 <i class="fas fa-tag"></i>
                             </div>
                         </x-slot>
-                        <option value="{{ $post->category_id }}">{{ $post->category->name }}</option>
+                        <option value="{{ $post[0]->category_id }}">{{ $post[0]->category_title }}</option>
                         @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -33,7 +33,7 @@
                                 <i class="fas fa-tag"></i>
                             </div>
                         </x-slot>
-                        {{-- <option value="{{ $post->products->id }}">{{ $post->products->name }}</option> --}}
+                        {{-- <option value="{{ $post[0]->products->id }}">{{ $post[0]->products->name }}</option> --}}
                         @foreach($productAll as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                         @endforeach
@@ -42,11 +42,11 @@
 
                     <div class="form-group">
                         <label>Title</label>
-                        <input type="text" name="title" value="{{ $post->title }}" class="form-control" placeholder="Title for article">
+                        <input type="text" name="title" value="{{ $post[0]->title }}" class="form-control" placeholder="Title for article">
                     </div>
                     <div class="form-group">
                         <label>Slug</label>
-                        <input type="text" name="slug" value="{{ $post->slug }}" class="form-control" placeholder="Slug for article">
+                        <input type="text" name="slug" value="{{ $post[0]->slug }}" class="form-control" placeholder="Slug for article">
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" id="editor" name="content" placeholder="Description for article">{{ $post->content }}</textarea>
+                        <textarea class="form-control" id="editor" name="content" placeholder="Description for article">{{ $post[0]->content }}</textarea>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="form-group">
                     <label>Published</label>
                     <select name="published" class="custom-select">
-                        <option value="{{ $post->published }}">{{ $post->published ? 'True' : 'False' }}</option>
+                        <option value="{{ $post[0]->published }}">{{ $post[0]->published ? 'True' : 'False' }}</option>
                         <option value="1">True</option>
                         <option value="0">False</option>
                     </select>

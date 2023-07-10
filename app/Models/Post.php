@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -39,6 +38,22 @@ class Post extends Model
                 'posts.image as posts_image',
                 'posts.slug as posts_slug',
                 'posts.published as posts_published',
+                'posts.deleted_at as deleted_at',
+                'categories.name as category_title', 
+                'users.name as users_name', 
+                )
+            ->get();
+    }
+
+    public function AssociateItem($id)
+    {
+        return DB::table('posts')
+            ->join('categories', 'posts.category_id', '=', 'categories.id')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->where('posts.id', $id)
+            ->select(
+                'posts.*',
+                'categories.id as category_id',
                 'categories.name as category_title', 
                 'users.name as users_name', 
                 )
